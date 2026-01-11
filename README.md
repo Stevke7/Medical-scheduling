@@ -9,87 +9,54 @@ Full-stack aplikacija za zakazivanje medicinskih termina sa real-time notifikaci
 - **Database:** MongoDB + Redis
 - **Monorepo:** npm workspaces
 
-## Struktura projekta
-
-```
-medical-scheduling/
-├── packages/
-│   ├── shared/          # Zajednički tipovi i konstante
-│   ├── server/          # Express backend
-│   └── client/          # React frontend
-├── package.json         # Root package.json (workspaces)
-└── .env                 # Environment variables
-```
-
 ## Prerequisites
 
 - Node.js 18+
-- MongoDB (running locally on port 27017)
-- Redis (running locally on port 6379)
-
-### Pokretanje MongoDB i Redis (Docker)
-
-```bash
-# MongoDB
-docker run -d -p 27017:27017 --name mongodb mongo:latest
-
-# Redis
-docker run -d -p 6379:6379 --name redis redis:latest
-```
+- MongoDB
+- Redis
 
 ## Instalacija
 
 ```bash
-# Kloniraj repo i uđi u folder
 cd medical-scheduling
-
-# Instaliraj sve dependencies
 npm install
-
-# Build shared package
 npm run build -w @medical/shared
-```
-
-## Pokretanje
-
-### 1. Seed baze podataka
-
-```bash
 npm run seed
+npm run dev
 ```
 
-Ovo kreira test naloge:
+Seed kreira test naloge:
+
+**NAPOMENA: VREMENSE ZONE SE KUPE AUTOMATSKI TAKO DA NAKON LOGINA U BAZI BI TREBALO DA BUDE UPISANA AUTOMATSKI SETOVANA VREMENSKA ZONA**
+**JA SAM TESTIRAO MIJENJAJUCI LOKACIJU BROWSERA NA SLEDECI NACIN**
+
+-Chrome DevTools
+-Otvoriti web app
+-Pritisnuti F12
+-Otvoriti meni sa tri tacke ⋮ → More tools → Sensors
+-Find Timezone
+-Izabrati:
+-America/New_York
+-Europe/London
+-Asia/Tokyo
+-Australia/Sydney
+-reload stranicu.
 
 **Doktori (Clinic):**
+
 - dr.smith@clinic.com / password123 (America/New_York)
 - dr.jones@clinic.com / password123 (Europe/London)
 - dr.mueller@clinic.com / password123 (Europe/Berlin)
 
 **Pacijenti:**
+
 - alice@example.com / password123 (America/Los_Angeles)
 - bob@example.com / password123 (America/New_York)
 - carol@example.com / password123 (Europe/Paris)
 - david@example.com / password123 (Asia/Tokyo)
 - emma@example.com / password123 (Australia/Sydney)
 
-### 2. Pokreni development servere
-
-```bash
-# Pokreni oba (server + client) istovremeno
-npm run dev
-```
-
-Ili odvojeno:
-
-```bash
-# Terminal 1 - Backend
-npm run dev:server
-
-# Terminal 2 - Frontend
-npm run dev:client
-```
-
-### 3. Otvori u browseru
+### 3. Otvoriti u browseru
 
 - **Clinic panel:** http://localhost:5173/clinic
 - **Patient portal:** http://localhost:5173/patient
@@ -156,7 +123,7 @@ GET  /api/patient/events         - Lista termina pacijenta
 
 ## Timezone Handling
 
-1. **Login:** Klijent šalje IANA timezone (npr. "Europe/Belgrade")
+1. **Login:** Klijent šalje IANA timezone (npr. "Europe/Warsaw")
 2. **Kreiranje termina:** Doktor bira lokalno vrijeme → konvertuje se u UTC
 3. **Prikaz termina:** UTC iz baze → konvertuje se u pacijentovu timezone
 4. **Reminders:** Računaju se na osnovu UTC vremena
@@ -171,9 +138,6 @@ GET  /api/patient/events         - Lista termina pacijenta
 ## Development
 
 ```bash
-# Lint
-npm run lint
-
 # Build sve
 npm run build
 ```
