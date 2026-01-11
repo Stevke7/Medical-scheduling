@@ -17,6 +17,8 @@ Full-stack aplikacija za zakazivanje medicinskih termina sa real-time notifikaci
 
 ## Instalacija
 
+**U .env fajlove u root i /packages/server/.env ubaciti prave stringove za REDIS i MONGO DB**
+
 ```bash
 cd medical-scheduling
 npm install
